@@ -15,14 +15,14 @@ class MinimalPublisher(Node):   # Create a new class called MinimalPublisher tha
 
         timer_period = float(self.get_parameter('publish_period').value)
         sensor_id = self.get_parameter('sensor_id').value
+        self.get_logger().warn("self.sensor_id")
         if sensor_id == 1:
             self.pin = hatLib.IR1_INPUT_PIN
+            self.get_logger().warn("Got Sensor 1")
         elif sensor_id == 2:
             self.pin = hatLib.IR2_INPUT_PIN
-        else:
-            self.get_logger().warn(f"Invalid sensor_id={sensor_id}, defaulting to IR1")
-            self.pin = hatLib.IR1_INPUT_PIN
-
+            self.get_logger().warn("Got Sensor 2")
+        
 
         self.publisher_ = self.create_publisher(Int32, 'sensorA', 10)     # Create a publisher for String type messages on the topic 'my_topic'                                              # Define the timer period in seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)   # Create a timer that calls 'timer_callback' every 0.5 seconds
@@ -38,9 +38,9 @@ class MinimalPublisher(Node):   # Create a new class called MinimalPublisher tha
             return
 
         if ir1Value == hatLib.DARK:
-            state = "Light"
-        elif ir1Value == hatLib.LIGHT:
             state = "Dark"
+        elif ir1Value == hatLib.LIGHT:
+            state = "Light"
         else:
             state = "UNKNOWN"
         msg = Int32()                                          # Create a new String message
