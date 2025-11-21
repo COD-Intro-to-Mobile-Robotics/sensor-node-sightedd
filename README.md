@@ -22,3 +22,14 @@
 * Other example node source code found in src/param_pubsub/param_pubsub/
 * Examples of launchfiles & parameters found in src/param_pubsub/launch/
 * GPIO example usage found in src/include/
+
+
+how to do lab:
+cd ~/git/sensor-node-sightedd
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+colcon build --symlink-install
+source install/setup.bash
+ros2 launch sensorlab sensor_lab_launch.xml
+
+
