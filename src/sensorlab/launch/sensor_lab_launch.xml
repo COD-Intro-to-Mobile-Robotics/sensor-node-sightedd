@@ -1,0 +1,10 @@
+<launch>
+
+  <node pkg="sensorlab" exec="publisher" name="sensor_publisher" output="screen">
+      <param name="publish_period" value="0.5" />
+      <param name="sensor_id" value="1" />
+  </node>
+
+  <node pkg="sensorlab" exec="subscriber" name="sensor_listener" output="screen" />
+  
+</launch>
