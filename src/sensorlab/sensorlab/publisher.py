@@ -1,6 +1,7 @@
 import rclpy                    # import the ROS Client Library for Python (RCLPY)
 from rclpy.node import Node     # from RCLPY, import the Node Class used to create ROS 2 nodes
 from std_msgs.msg import Int32 # from standard messages, import the String message
+from std_msgs.msg import String
 from sensorlab import hat_library as hatLib
 import RPi.GPIO as GPIO
 
@@ -34,11 +35,20 @@ class MinimalPublisher(Node):   # Create a new class called MinimalPublisher tha
         ir1Value = hatLib.get_ir_state(self.pin)
         if ir1Value == hatLib.INVALID:
             self.get_logger().warn("Got INVALID reading, not publishing")
-            return 
+            return
+
+        if ir1Value == hatLib.DARK:
+            state = "Light"
+        elif ir1Value == hatLib.LIGHT:
+            state = "Dark"
+        else:
+            state = "UNKNOWN"
         msg = Int32()                                          # Create a new String message
-        msg.data = int(ir1Value)                   # Assign text to msg.data, including the current value of i
+        msg.data = int(ir1Value)   
+                    # Assign text to msg.data, including the current value of i
         self.publisher_.publish(msg)                            # Publish the message to the topic
         self.get_logger().info('Publishing: "%s"' % msg.data)   # Log the published message for debugging
+        self.get_logger().info('Publishing: "%s"' % state)
         self.i += 1                                             # Increment the counter for the next message
 
 
